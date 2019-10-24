@@ -4,8 +4,6 @@ import time
 from pysine import *
 # from pyo import *
 import pygame as pg
-from mixer import *
-
 
 # face_cascade = cv2.CascadeClassifier('facialdetection.xml')
 # palm_cascade = cv2.CascadeClassifier('palm detection.xml')
@@ -13,8 +11,6 @@ test_cascade = cv2.CascadeClassifier('closed_frontal_palm.xml')
 cam = cv2.VideoCapture(0)
 
 pg.init()
-
-
 
 def play_note(y):
     print(y)
