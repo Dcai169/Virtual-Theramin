@@ -10,7 +10,14 @@ import pygame as pg
 test_cascade = cv2.CascadeClassifier('closed_frontal_palm.xml')
 cam = cv2.VideoCapture(0)
 
+pitch_line = ((200, 100), (200, 500))
+volume_line = ((700, 600), (1200, 600))
+
 pg.init()
+
+def draw_lines(frame):
+    cv2.line(frame, pitch_line[0], pitch_line[1], (255, 255, 255), thickness=3)
+    cv2.line(frame, volume_line[0], volume_line[1], (255, 255, 255), thickness=3)
 
 def play_note(y):
     print(y)
@@ -59,7 +66,7 @@ def play_note(y):
 
 
 g=440
-while 1==1:
+while cam.isOpened():
 
     ret, img = cam.read()
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -81,7 +88,10 @@ while 1==1:
     # hands = palm_cascade.detectMultiScale(gray, 1.08, 8)
     for (x,y,w,h) in hands:
         cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 2)
+
+    draw_lines(img)
     cv2.imshow('img', img)
+
     k = cv2.waitKey(30) & 0xff
     if k==27:
         break
