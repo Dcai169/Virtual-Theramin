@@ -1,0 +1,4 @@
+numpy
+opencv-python
+sound_machine
+pysine
