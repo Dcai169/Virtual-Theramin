@@ -1,5 +1,8 @@
 *.iml
-./.idea/*
-*.xml
+./.idea/misc.xml
+./.idea/vcs.xml
+
 examples/
 venv/
+.idea/vcs.xml
+*.xml
