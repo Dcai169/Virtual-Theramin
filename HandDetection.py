@@ -15,7 +15,7 @@ pg.init()
 def play_note(y):
     print(y)
     starty = 70
-    height=30
+    height=35
     if (y<starty):
         sound = pg.mixer.Sound("Music_Notes/F_s.wav")
     elif (y<starty+(height*1)):
@@ -58,9 +58,6 @@ def play_note(y):
     # oscillator.play()
 
 
-def strum_stuff(freq):
-    print("")
-    sine(freq, 0.5)  # plays a 1s sine wave at 440 Hz
 g=440
 while 1==1:
 
