@@ -13,14 +13,14 @@ class GripPipeline:
         """
 
         self.__blur_type = BlurType.Box_Blur
-        self.__blur_radius = 7.207207207207208
+        self.__blur_radius = 7.0
 
         self.blur_output = None
 
         self.__hsv_threshold_input = self.blur_output
-        self.__hsv_threshold_hue = [0.0, 60.81494057724957]
-        self.__hsv_threshold_saturation = [82.55395683453237, 255.0]
-        self.__hsv_threshold_value = [64.20863309352518, 255.0]
+        self.__hsv_threshold_hue = [0.0, 60.0]
+        self.__hsv_threshold_saturation = [80.0, 255.0]
+        self.__hsv_threshold_value = [65.0, 255.0]
 
         self.hsv_threshold_output = None
 
