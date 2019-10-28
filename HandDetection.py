@@ -1,9 +1,13 @@
 import cv2
 import numpy as np
 import time
-from pysine import *
-# from pyo import *
+
 import pygame as pg
+from synthesizer import Synthesizer, Waveform, player
+
+
+
+
 
 # face_cascade = cv2.CascadeClassifier('facialdetection.xml')
 # palm_cascade = cv2.CascadeClassifier('palm detection.xml')
@@ -16,10 +20,19 @@ volume_line = ((700, 600), (1200, 600))
 pg.init()
 
 def draw_lines(frame):
-    cv2.line(frame, pitch_line[0], pitch_line[1], (255, 255, 255), thickness=3)
-    cv2.line(frame, volume_line[0], volume_line[1], (255, 255, 255), thickness=3)
+    cv2.line(frame, pitch_line[0], pitch_line[1], (255, 255, 255), 3)
+    cv2.line(frame, volume_line[0], volume_line[1], (255, 255, 255), 3)
 
+def play_note2(y):
+    RATE = 2000000
+    synthesizer = Synthesizer(Waveform.sawtooth, 1.0, False, RATE)
+    wave = synthesizer.generate_constant_wave(y, 0.05)
+    player_ = player.Player()
+    player_.open_stream()
+
+    player_.play_wave(wave)
 def play_note(y):
+
     print(y)
     starty = 70
     height=35
@@ -68,23 +81,25 @@ def play_note(y):
 g=440
 while cam.isOpened():
 
+
     ret, img = cam.read()
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     # hands = face_cascade.detectMultiScale(gray, 1.09, 5)
-    hands = test_cascade.detectMultiScale(gray, 1.08, 5)
+    hands = test_cascade.detectMultiScale(gray, 1.14, 5)
 
     if len(hands)>0:
         h = 0
         for hand in hands:
-            play_note(hand[1])
 
             if hand[2]>h:
                 h = hand[2]
                 g = hand[1]
+        play_note2(g)
 
 
     else:
-        play_note(g)
+        play_note2(g)
+
     # hands = palm_cascade.detectMultiScale(gray, 1.08, 8)
     for (x,y,w,h) in hands:
         cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 2)
