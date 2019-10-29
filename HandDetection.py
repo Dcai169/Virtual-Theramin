@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import time
 
-import pygame as pg
+# import pygame as pg
 from synthesizer import Synthesizer, Waveform, player
 
 
@@ -31,6 +31,8 @@ def play_note2(y):
     player_.open_stream()
 
     player_.play_wave(wave)
+
+
 def play_note(y):
 
     print(y)
