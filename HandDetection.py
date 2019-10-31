@@ -8,9 +8,11 @@ from synthesizer import Synthesizer, Waveform, player
 # palm_cascade = cv2.CascadeClassifier('palm detection.xml')
 test_cascade = cv2.CascadeClassifier('closed_frontal_palm.xml')
 cam = cv2.VideoCapture(0)
-
-pitch_line = ((200, 100), (200, 500))
-volume_line = ((700, 600), (1200, 600))
+line_x = 200
+line_y = 600
+pitch_line = ((line_x, 100), (line_x, 500))
+volume_line = ((700, line_y), (1200, line_y))
+pitch_range = (100, 3000)
 
 
 
@@ -75,8 +77,7 @@ def play(hz, volume):
 #     # oscillator.play()
 
 
-g=440
-
+y = 440
 while cam.isOpened():
     ret, img = cam.read()
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -85,19 +86,23 @@ while cam.isOpened():
     img_h, img_w = img.shape[:2]
 
     if len(hands) > 0:
-        h = 0
         for hand in hands:
-            if hand[2] > h:
-                h = hand[2]
-                g = hand[1]
+            if hand[2] > 0:
+                x, y, w, h = hand
+                hz_max = img_w - line_x
+                hz_current = x - line_x
+                hz_real = hz_current * (pitch_range[1]-pitch_range[0]) / hz_max + pitch_range[0]
+                db_current = y / line_y
 
-        tnote = threading.Thread(None, target=play, args=(g, 1.0,))
-        tnote.start()
-        play(g, 1.0)
+                if hz_real >= 0:
+                    tnote = threading.Thread(None, target=play, args=(hz_real, db_current,))
+                    tnote.start()
+        # play(g, 1.0)
 
 
     else:
-        play(g, 1.0)
+        pass
+        # play(y, 1.0)
 
     # hands = palm_cascade.detectMultiScale(gray, 1.08, 8)
     for (x, y, w, h) in hands:
